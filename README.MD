@@ -1,3 +1,3 @@
 # Instaclone
 
-Instaclone Backend.
+Front(React) + Back(Prisma, GraphQl)
