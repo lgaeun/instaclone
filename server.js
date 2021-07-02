@@ -1,34 +1,47 @@
+import { PrismaClient } from "@prisma/client";
 import { ApolloServer, gql } from "apollo-server";
 
+const client = new PrismaClient(); //ready to use prisma client
+
+//keep typeDefs and schema same!!(manually)
 const typeDefs = gql`
   type Movie {
-    title: String
-    year: Int
+    id: Int!
+    title: String!
+    year: Int!
+    genre: String
+    createdAt: String!
+    updatedAt: String!
   }
   type Query {
     movies: [Movie]
-    movie: Movie
+    movie(id: Int!): Movie
   }
   type Mutation {
-    createMovie(title: String!): Boolean
-    deleteMovie(title: String!): Boolean
+    createMovie(title: String!, year: Int!, genre: String): Movie # return Movie that we created
+    deleteMovie(id: Int!): Movie # return Movie that we deleted
+    updateMovie(id: Int!, year: Int!): Movie
   }
 `;
 
 const resolvers = {
   Query: {
-    movies: () => [],
-    movie: () => ({ title: "Hello", year: 2021 }),
+    movies: () => client.movie.findMany(),
+    movie: (_, { id }) => client.movie.findUnique({ where: { id } }),
   },
   Mutation: {
-    createMovie: (_, { title }) => {
-      console.log(title);
-      return true;
-    },
-    deleteMovie: (_, { title }) => {
-      console.log(title);
-      return true;
-    },
+    createMovie: (_, { title, year, genre }) =>
+      client.movie.create({
+        //talk to database
+        data: {
+          title,
+          year,
+          genre,
+        },
+      }),
+    deleteMovie: (_, { id }) => client.movie.delete({ where: { id } }),
+    updateMovie: (_, { id, year }) =>
+      client.movie.update({ where: { id }, data: { year } }),
   },
 };
 
