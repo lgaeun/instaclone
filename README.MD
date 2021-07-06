@@ -1,10 +1,17 @@
 # Instaclone
 
-### Front
-  - React, React Hooks
-  - Apollo
+## User:
 
+- Create Account
+
+---
+
+### Front
+
+- React, React Hooks
+- Apollo
 
 ### Back
-  - Server: Apollo Server, Prisma, GraphQl
-  - DB: Postgres
+
+- Server: Apollo Server, Prisma, GraphQl
+- DB: Postgres
