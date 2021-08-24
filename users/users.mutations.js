@@ -21,13 +21,18 @@ export default {
           ],
         },
       });
-      console.log(existingUser);
       //hash password
       const uglyPassword = await bcrypt.hash(password, 10);
-      return client.user.create({data: {
-        username, email, firstName, lastName, password:uglyPassword,
-      }})
       //save and return the user
+      return client.user.create({
+        data: {
+          username, 
+          email, 
+          firstName, 
+          lastName, 
+          password:uglyPassword
+        },
+      });
     },
   },
 };
