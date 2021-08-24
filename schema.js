@@ -10,7 +10,7 @@ import {
 //anyfolder/anyfilename.typeDefs.js
 const loadedTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.js`);
 const loadedResolvers = loadFilesSync(
-  `${__dirname}/**/*.{queries, mutations}.js` //this is called glob! (=pattern language)
+  `${__dirname}/**/*.{queries,mutations}.js` //this is called glob! (=pattern language)
 );
 
 const typeDefs = mergeTypeDefs(loadedTypes);
