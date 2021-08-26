@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import client from "../client";
 
 export default {
@@ -7,7 +8,7 @@ export default {
       _,
       { firstName, lastName, username, email, password }
     ) => {
-      try{
+      try {
         //check if username or email are already on DB.
         const existingUser = await client.user.findFirst({
           //send filters where having same username or email
@@ -38,10 +39,34 @@ export default {
             password: uglyPassword,
           },
         });
-      }catch(e){
-        console.log(e)
+      } catch (e) {
+        console.log(e);
         return e;
       }
+    },
+    login: async (_, { username, password }) => {
+      //find user with args.username
+      const user = await client.user.findFirst({ where: { username } });
+      if (!user) {
+        return {
+          ok: false,
+          error: "User not found.",
+        };
+      }
+      //check password with args.password
+      const passwordOk = await bcrypt.compare(password, user.password);
+      if (!passwordOk) {
+        return {
+          ok: false,
+          error: "Incorrect Password.",
+        };
+      }
+      //issue a token and send it to the user
+      const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+      return {
+        ok: true,
+        token,
+      };
     },
   },
 };
