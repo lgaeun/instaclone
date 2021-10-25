@@ -3,6 +3,8 @@
 ## User:
 
 - Create Account
+- Edit Profile
+- See Profile
 
 ---
 
