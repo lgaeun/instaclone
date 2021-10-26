@@ -1,3 +1,4 @@
+import { createWriteStream, write } from "fs";
 import bycrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import client from "../../client";
@@ -5,9 +6,13 @@ import { protectedResovler } from "../users.utils";
 
 const resolverFunc = async (
   _,
-  { firstName, lastName, username, email, password: newPassword, bio },
+  { firstName, lastName, username, email, password: newPassword, bio, avatar },
   { loggedInUser, protectedResolver }
 ) => {
+  const { filename, createReadStream } = await avatar;
+  const readStream = createReadStream();
+  const writeStream = createWriteStream(process.cwd() + "/uploads/" + filename);
+  readStream.pipe(writeStream);
   if (!loggedInUser) {
     return {
       ok: false,
