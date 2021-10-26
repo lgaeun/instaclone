@@ -5,7 +5,7 @@ import { protectedResovler } from "../users.utils";
 
 const resolverFunc = async (
   _,
-  { firstName, lastName, username, email, password: newPassword },
+  { firstName, lastName, username, email, password: newPassword, bio },
   { loggedInUser, protectedResolver }
 ) => {
   if (!loggedInUser) {
@@ -29,6 +29,7 @@ const resolverFunc = async (
       lastName,
       username,
       email,
+      bio,
       ...(uglyPassword && { password: uglyPassword }),
     },
   });
