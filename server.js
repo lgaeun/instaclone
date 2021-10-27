@@ -23,5 +23,5 @@ const app = express();
 app.use(logger("tiny"));
 server.applyMiddleware({ app });
 app.listen({ port: PORT }, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}/graphql ✅`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}/ ✅`);
 });
